@@ -3,14 +3,14 @@ import type {ICrud} from "../interface/index.js"
 
 const prisma = new PrismaClient();
 //  T bi mo nekk ni 
-export interface personne {
+export interface Personne {
     id:number
     nom:string
     prenom:string
     age :number
 }
 // Tcreate Bi mo nekk ni
-export type personneCreate={
+export type PersonneCreate={
     nom:string
     prenom:string
     age :number
@@ -18,15 +18,14 @@ export type personneCreate={
 // On pourrait utiliser Omit 
 
 //  Tupdate Bi da dieul personneCreate mou def attribut yi optionel a cause de Partial
-export type personneUpdate=Partial<personneCreate>;
+export type PersonneUpdate=Partial<PersonneCreate>;
 
-
-export class PersonneRepository implements ICrud <personne,personneCreate,personneUpdate,number>{
-    async findAll():Promise<personne[]>{
+export class PersonneRepository implements ICrud <Personne,PersonneCreate,PersonneUpdate,number>{
+    async findAll():Promise<Personne[]>{
         return await prisma.personne.findMany();
     }
 
-    async findById(id:number):Promise <personne | null>{
+    async findById(id:number):Promise <Personne | null>{
         return await prisma.personne.findUnique(
             {
                 where : {id}
@@ -34,13 +33,13 @@ export class PersonneRepository implements ICrud <personne,personneCreate,person
         );
     }
 
-    async create(personne:personneCreate):Promise<personne>{
+    async create(personne:PersonneCreate):Promise<Personne>{
         return await prisma.personne.create({
             data:personne
         });
     }
     
-   async  update(id:number,personne:personneUpdate):Promise<personne>{
+   async  update(id:number,personne:PersonneUpdate):Promise<Personne>{
      return await prisma.personne.update({
         where :{id},
         data :personne
